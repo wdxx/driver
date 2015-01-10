@@ -1,0 +1,23 @@
+一个字符设备或者块设备都有一个主设备号和次设备号。主设备号和次设备号组成了设备号（dev_t）。
+1. 主设备号：用来表示一个特定的驱动程序. 通过MAJOR（dev）可以得到主设备号。
+	 次设备号：用来表示使用该驱动程序的各设备。 通过MINOR（dev）可以得到次设备号。
+	 通过MKDEV（ma,mi）得到设备号。
+	 
+2. 设备号的分配
+2.1 静态分配：不推荐使用
+2.2 动态分配:
+			int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const char *name)
+2.3 设备号释放：
+			void unregister_chrdev_region(dev_t from, unsigned count)
+
+3. 查看设备号：cat /proc/devices
+
+4. cdev结构体
+struct cdev {
+	struct kobject kobj;
+	struct module *owner;
+	const struct file_operations *ops;
+	struct list_head list;
+	dev_t dev;
+	unsigned int count;
+};

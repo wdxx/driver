@@ -28,7 +28,7 @@ struct globalmem_dev dev;
 static ssize_t globalmem_read(struct file *filp, char __user *buf, size_t count, loff_t *ppos)
 {
 	unsigned long p = *ppos;
-	int ret t = 0;
+	int ret  = 0;
 	/* 判断访问是否越界 */
 	if (p >= GLOBALMEM_SIZE) return count? -ENXIO : 0;
 	if (count > GLOBALMEM_SIZE - p)
@@ -144,7 +144,7 @@ static const struct file_operations globalmem_fops = {
 	/* 对于ioctl操作,优先执行f_op->unlocked_ioctl,如果没有unlocked_ioctl,那么执行f_op->ioctl */
 	.unlocked_ioctl 	= globalmem_ioctl,
 };
-static globalmem_setup_cdev(void)
+static void globalmem_setup_cdev(void)
 {
 	int err, devno = MKDEV(globalmem_major, 0);
 	cdev_init(&dev.cdev, &globalmem_fops);
